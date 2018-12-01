@@ -18,11 +18,33 @@ public class Chapter1 {
         simpleDataList.add(new SimpleData(1));
         simpleDataList.add(new SimpleData(15));
 
+        s1(simpleDataList);
+        System.out.println("No Stream result : " + noStreamMethod(simpleDataList));
+        System.out.println("Stream result : " + streamMethod(simpleDataList));
+    }
+
+    private static void s1(List<SimpleData> simpleDataList) {
         List<SimpleData> newSimpleDataList = simpleDataList.stream()
                 .sorted(Comparator.comparing(SimpleData::getId))
                 .collect(Collectors.toList());
 
         System.out.println(newSimpleDataList.toString());
+    }
+
+    private static List<SimpleData> noStreamMethod(List<SimpleData> simpleDataList) {
+        List<SimpleData> result = new ArrayList<>();
+        for (SimpleData data : simpleDataList) {
+            if (data.getId() >= 10) {
+                result.add(data);
+            }
+        }
+        return result;
+    }
+
+    private static List<SimpleData> streamMethod(List<SimpleData> simpleDataList) {
+        return simpleDataList.stream()
+                .filter(data -> data.getId() >= 10)
+                .collect(Collectors.toList());
     }
 
 }

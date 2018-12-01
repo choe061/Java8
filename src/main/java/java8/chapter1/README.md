@@ -32,3 +32,15 @@
         .sorted(Comparator.comparing(SimpleData::getId))
         .collect(Collectors.toList());
     ```
+    * 람다
+        * 자바 8에서는 메소드를 일급 값으로 취급할 뿐 아니라 람다를 포함하여 함수도 값으로 취급할 수 있다.
+    * Predicate
+        * 수학에서는 인수를 받아 true나 false를 반환하는 함수를 predicate라고 한다.
+        * Java 8의 Function<ParameterType, ReturnType>을 사용하여 Function<T, Boolean> 으로 구현할 수 있지만, 리턴 타입이 Boolean인 경우 predicate를 사용하는 것이 더 표준적인 방식이다.
+
+#### 멀티코어
+* 최근 CPU는 대부분 멀티코어로 구성되어 있다. 하지만 그 멀티코어를 활용하기 위해 멀티스레딩을 통해 병렬성을 구현하는 것은 쉽지 않다.
+* 자바 8의 Stream API로 멀티코어 활용의 어려움을 해결하고, 기존의 컬렉션에서 데이터를 처리할 때 반복되는 패턴(데이터베이스 질의와 비슷한)을 서버 애플리케이션 코드에서 처리할 수 있도록 기능을 지원해준다.
+    * filtering
+    * extracting
+    * grouping
