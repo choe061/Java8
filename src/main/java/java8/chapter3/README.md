@@ -46,8 +46,52 @@ appleList.sort((o1, o2) -> o1.getWeight() - o2.getWeight());
     * Consumer
     * Function
     
-#### Predicate
+#### Predicate<T>
+* test(T t)
+    * 인자 : T
+    * 리턴 : boolean
+* T를 인자로 받아 어떤 로직을 수행하고 그에 대한 boolean 값을 리턴
 
-#### Consumer
+#### Consumer<T>
+* accept(T t)
+    * 인자 : T
+    * 리턴 : void
+* T를 인자로 받아 어떤 로직을 수행하고 싶을 때
 
-#### Function
+#### Function<T, R>
+* apply(T t)
+    * 인자 : T
+    * 리턴 : R
+* T를 인자로 받아 어떤 로직을 수행하고 R을 리턴
+
+#### Supplier<T>
+* get()
+    * 리턴 : T
+* 무인자 함수로, 새로운 객체 T를 생성하여 리턴
+
+#### 타입 체크, 타입 추론, 제약
+* 람다는 콘텍스트를 이용해서 람다의 타입 추론이 가능하다. 어떤 context에서 기대되는 람다 표현식의 형식을 대상 형식이라 한다.
+* 대상 형식이 같다면, 다른 함수형 인터페이스여도 서로 호환 가능하다.
+* 지역 변수 사용
+    * 람다 표현식에서는 외부에 정의된 변수(자유 변수)를 활용할 수 있다. 하지만 이때 동작은 람다 캡쳐링이라 한다. 외부 변수를 활용할 수 있지만 약간의 제약이 따른다. 람다는 인스턴스 변수와 정적 변수를 자유롭게 캡처할 수 있다. 캡처란 람다의 바디 내부에서 참조할 수 있는 것을 말한다.
+    * 외부 변수를 사용할 경우 명시적으로 final 변수이거나, 실질적으로 final 변수와 같이 사용되어야 한다.
+        * 실질적으로 final 변수와 같이 사용되어야 한다??? 값이 한 번만 할당되어서 상수처럼 변하지 않는 데이터처럼 사용되어야 한다는 것인가?
+    * 지역 변수의 제약, why?
+        * 인스턴스 변수는 heap에 저장되는 반면, 지역 변수는 stack에 저장된다. 람다에서 지역 변수에 바로 접근할 수 있다는 가정하에 람다가 스레드에서 실행된다면 <U>변수를 할당한 스레드(메소드 호출시 생성된 스레드)</U>가 사라져서 변수 할당이 해제되었는데도 람다를 실행하는 스레드에는 해당 변수에 접근하는 문제가 생긴다.
+        * 그래서 외부 변수에 접근할 때, 직접 접근이 아닌 복사본(캡처)을 뜨는 것이다.
+        * **언뜻보면, JS 같은 언어에서 클로저로 인해 생기는 안전하지 못한 동작을 예방하기 위해 캡처 방식을 사용하는 것 같다.**
+
+#### 메소드 레퍼런스
+* 가독성 굳
+* 람다에서 메소드 래퍼런스로 변경
+    1. (args) -> ClassName.staticMethod(args);
+        * ClassName.staticMethod
+    2. (arg0, rest) -> arg0.instanceMethod(rest);
+        * ClassName::instanceMethod
+    3. (args) -> expr.instanceMethod(args);
+        * expr::instanceMethod
+* 예시
+    * (String s) -> Integer.parseInt(s);
+        * Integer::parseInt
+    * XXX<List<String>, String> contains = (list, element) -> list.contains(element);
+        * List::contains
