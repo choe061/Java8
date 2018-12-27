@@ -54,3 +54,14 @@
     * 함수형 프로그래밍 언어 용어로는 폴드(fold)라고 부른다.
 * reduce 메소드를 사용하면 내부적으로 병렬 실행을 할 수 있게 된다.
     * 유의할 점으로 reduce에 넘겨준 람다의 상태가 변경되지 않아야 하고, 연산이 순서에 따른 영향이 없어야 한다.
+    
+#### 기본형 특화 스트림
+* 스트림 API에서 Boxing UnBoxing의 비용을 줄일 수 있도록 int, double, long에 특화된 스트림을 제공한다.
+    * IntStream
+        * mapToInt()
+    * DoubleStream
+        * mapToDouble()
+    * LongStream
+        * mapToLong()
+* primitive type에 특화된 스트림은 리듀싱 연산 메소드를 추가적으로 제공한다.
+    * sum(), max(), min(), average()
